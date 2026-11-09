@@ -1,0 +1,39 @@
+
+======================================================================
+1) Geração e salvamento dos pares de chaves (Serviço A e Serviço B)
+======================================================================
+Chaves salvas na pasta keys/ (privadas protegidas por senha).
+
+======================================================================
+2) Fluxo normal: A cifra para B e assina; B verifica e decifra
+======================================================================
+Envelope cifrado (trecho): ENqlGUuxCDvPPtLwUpDeumYOKrdCwpchgKwVghZxSMq15gzaOhbUqgiXtvJR ...
+SUCESSO -> mensagem recebida: Transferir R$ 100,00 para a conta 12345 (mensagem fictícia)
+
+======================================================================
+3) Adulteração do TEXTO CIFRADO em trânsito
+======================================================================
+FALHA detectada pela ASSINATURA -> Assinatura inválida: remetente não autenticado ou pacote adulterado.
+
+======================================================================
+4) Adulteração com assinatura 'refeita' por um atacante (outra chave)
+======================================================================
+FALHA detectada: assinatura não pertence ao remetente legítimo -> Assinatura inválida: remetente não autenticado ou pacote adulterado.
+
+======================================================================
+5) Só a cifragem (sem assinatura): o AES-GCM também detecta adulteração
+======================================================================
+FALHA detectada pela tag de autenticação do AES-GCM (InvalidTag).
+
+======================================================================
+6) Só a assinatura: mensagem pública, mas autêntica e íntegra
+======================================================================
+Assinatura válida (original):     True
+Assinatura válida (texto alterado): False
+
+======================================================================
+7) Sigilo != Autenticidade
+======================================================================
+Cifrar com a chave pública de B garante SIGILO (só B lê), mas qualquer um
+pode ter cifrado. Assinar com a chave privada de A garante AUTENTICIDADE
+e INTEGRIDADE, mas não esconde o conteúdo. Por isso usamos os dois.
